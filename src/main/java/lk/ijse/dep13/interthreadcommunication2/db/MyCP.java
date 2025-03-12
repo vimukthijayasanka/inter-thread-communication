@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.UUID;
 
 public class MyCP {
     private final HashMap<Integer, Connection> MAIN_POOL = new HashMap<>();
@@ -24,6 +25,11 @@ public class MyCP {
 
     public MyCP(int poolSize) throws IOException {
         this.poolSize = poolSize;
+        try {
+            initializePool();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getPoolSize() {
@@ -47,7 +53,7 @@ public class MyCP {
                     "jdbc:mysql://%s:%s/%s".formatted(host, port, database),
                     user, password
             );
-            MAIN_POOL.put((i + 1) * 10, connection);
+            MAIN_POOL.put(UUID.randomUUID().hashCode(), connection);
         }
     }
     public void releaseConnection(Integer id) {
