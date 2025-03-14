@@ -29,12 +29,13 @@ public class ReleaseConnectionServlet extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
             }
+            System.out.println("Release one connection in servlet");
         }
     }
 
     private void releaseConnection(String id, HttpServletResponse resp) throws IOException {
-        MyCP connectionPool = (MyCP) getServletContext().getAttribute("datasource");
-        connectionPool.releaseConnection(Integer.valueOf(id.trim()));
+        MyCP connectionPool = (MyCP) getServletContext().getAttribute("myCP");
+        connectionPool.releaseConnection(id);
 
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
@@ -42,7 +43,7 @@ public class ReleaseConnectionServlet extends HttpServlet {
     }
 
     private void releaseAllConnections(HttpServletResponse resp) throws IOException {
-        MyCP connectionPool = (MyCP) getServletContext().getAttribute("datasource");
+        MyCP connectionPool = (MyCP) getServletContext().getAttribute("myCP");
         connectionPool.releaseAllConnections();
 
         resp.setContentType("text/html");

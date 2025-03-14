@@ -17,6 +17,6 @@ public class AppListener implements ServletContainerInitializer {
             servletContext.setAttribute("myCP", myCP);
         } catch (IOException e) {
             throw new RuntimeException(e);
+            }
         }
     }
-}

@@ -10,11 +10,11 @@ import lk.ijse.dep13.interthreadcommunication2.db.MyCP;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet (name = "obtain-connection-servlet",urlPatterns = "/connections/")
+@WebServlet (name = "obtain-connection-servlet",urlPatterns = "/connections/random")
 public class ObtainConnectionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        MyCP connectionPool = (MyCP) getServletContext().getAttribute("datasource");
+        MyCP connectionPool = (MyCP) getServletContext().getAttribute("myCP");
         MyCP.ConnectionWrapper cWrapper = connectionPool.getConnection();
 
         resp.setContentType("text/html");
